@@ -202,8 +202,10 @@ dynamic_del(VRT_CTX, struct dynamic_ref *r)
 	if (r == dom->current)
 		dom->current = VTAILQ_NEXT(r, list);
 
-	if (dom->current == NULL)
+	if (dom->current == NULL) {
+		LOG(ctx, SLT_Error, dom, "%s", "triggered fix in PR #8");
 		dom->current = VTAILQ_FIRST(&dom->refs);
+	}
 
 	VTAILQ_REMOVE(&dom->refs, r, list);
 	free(r);
